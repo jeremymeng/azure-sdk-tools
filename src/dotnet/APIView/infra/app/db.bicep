@@ -4,30 +4,37 @@ param tags object = {}
 
 param containers array = [
   {
+    name: 'Reviews'
     id: 'Reviews'
-    partitionKey '/id'
+    partitionKey: '/id'
   }
   {
+    name: 'Comments'
     id: 'Comments'
-    partitionKey '/ReviewId'
+    partitionKey: '/ReviewId'
   }
   {
+    name: 'PullRequests'
     id: 'PullRequests'
-    partitionKey '/PullRequestNumber'
+    partitionKey: '/PullRequestNumber'
   }
   {
+    name: 'UsageSamples'
     id: 'UsageSamples'
-    partitionKey 'ReviewId'
+    partitionKey: '/ReviewId'
   }
   {
+    name: 'UserPreference'
     id: 'UserPreference'
-    partitionKey 'UserName'
+    partitionKey: '/UserName'
   }
   {
+    name: 'Profiles'
     id: 'Profiles'
-    partitionKey 'id'
+    partitionKey: '/id'
   }
 ]
+
 param databaseName string = ''
 
 // Because databaseName is optional in main.bicep, we make sure the database name is set here.
@@ -35,6 +42,7 @@ var defaultDatabaseName = 'APIView'
 var actualDatabaseName = !empty(databaseName) ? databaseName : defaultDatabaseName
 
 module cosmos '../core/database/cosmos/sql/cosmos-sql-db.bicep' = {
+  name: 'cosmos-sql'
   params: {
     accountName: accountName
     databaseName: actualDatabaseName
@@ -44,6 +52,6 @@ module cosmos '../core/database/cosmos/sql/cosmos-sql-db.bicep' = {
   }
 }
 
-output connectionStringKey string = cosmos.outputs.connectionStringKey
+// output connectionString string = cosmos.outputs.connectionString
 output databaseName string = cosmos.outputs.databaseName
 output endpoint string = cosmos.outputs.endpoint

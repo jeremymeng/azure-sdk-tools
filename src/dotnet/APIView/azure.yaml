@@ -4,11 +4,3 @@ name: APIView
 metadata:
     template: azd-init@1.5.0
 services:
-    APIView:
-        project: APIView
-        host: containerapp
-        language: dotnet
-    APIViewWeb:
-        project: APIViewWeb
-        host: containerapp
-        language: dotnet

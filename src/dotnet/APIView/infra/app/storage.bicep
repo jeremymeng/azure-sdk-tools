@@ -14,11 +14,14 @@ param containers array = [
 ]
 
 
-module blob '../core/storage/storage-account.bicep' = {
+module storage '../core/storage/storage-account.bicep' = {
+  name: 'storage'
   params: {
     name: name
     location: location
     containers: containers
-    tags: tags
   }
 }
+
+output name string = storage.name
+output primaryEndpoints object = storage.outputs.primaryEndpoints

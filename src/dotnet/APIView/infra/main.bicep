@@ -18,36 +18,32 @@ param cosmosDatabaseName string = ''
 param resourceGroupName string = ''
 param blobName string = ''
 
-@description('Id of the user or app to assign application roles')
-param principalId string = ''
-
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
 var tags = { 'azd-env-name': environmentName }
 
 // Organize resources in a resource group
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: !empty(resourceGroupName) ? resourceGroupName : '${abbrs.resourcesResourceGroups}${environmentName}'
+  name: !empty(resourceGroupName) ? resourceGroupName : 'yumeng-${abbrs.resourcesResourceGroups}${environmentName}'
   location: location
   tags: tags
 }
 
 // The application database
 module cosmos './app/db.bicep' = {
-  name: 'cosmos'
+  name: 'yumeng-cosmos-${environmentName}'
   scope: rg
   params: {
     accountName: !empty(cosmosAccountName) ? cosmosAccountName : '${abbrs.documentDBDatabaseAccounts}${resourceToken}'
     databaseName: cosmosDatabaseName
     location: location
     tags: tags
-    keyVaultName: keyVault.outputs.name
   }
 }
 
-// The application blob storage
-module cosmos './app/storage.bicep' = {
-  name: 'blob'
+// The application storage
+module storage './app/storage.bicep' = {
+  name: 'yumeng-storage-${environmentName}'
   scope: rg
   params: {
     name: !empty(blobName) ? blobName : '${abbrs.storageStorageAccounts}${resourceToken}'
@@ -56,8 +52,10 @@ module cosmos './app/storage.bicep' = {
 }
 
 // Data outputs
-output AZURE_COSMOS_CONNECTION_STRING_KEY string = cosmos.outputs.connectionStringKey
+// output AZURE_COSMOS_CONNECTION_STRING string = cosmos.outputs.connectionString
 output AZURE_COSMOS_DATABASE_NAME string = cosmos.outputs.databaseName
+output AZURE_STORAGE_NAME string = storage.outputs.name
+output AZURE_STORAGE_PRIMARY_ENDPOINTS object = storage.outputs.primaryEndpoints
 
 // App outputs
 output AZURE_LOCATION string = location
