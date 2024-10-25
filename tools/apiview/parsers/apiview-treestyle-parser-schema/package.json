@@ -7,8 +7,12 @@
     "@typespec/json-schema": "latest"
   },
   "devDependencies": {
+    "@azure-tools/typespec-ts": "^0.33.0",
     "@typespec/compiler": "latest",
     "@typespec/json-schema": "latest"
+  },
+  "scripts": {
+    "compile": "tsp compile ."
   },
   "private": true
 }

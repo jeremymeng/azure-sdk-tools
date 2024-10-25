@@ -1,4 +1,6 @@
 import "@typespec/json-schema";
+import "@typespec/http";
+using TypeSpec.Http;
 
 using TypeSpec.JsonSchema;
 
@@ -122,4 +124,12 @@ model NavigationItem {
   NavigationId: string;
   ChildItems: Array<NavigationItem>;
   Tags: Record<string>;
+}
+
+@service
+namespace ApiviewCodeFile {
+  @route("/test")
+  namespace Test {
+    @get op getEverything(): CodeFile;
+  }
 }

@@ -1,8 +1,18 @@
 emit:
   - "@typespec/json-schema"
+  - "@azure-tools/typespec-ts"
 options:
   "@typespec/json-schema":
     file-type: "json"
     emitter-output-dir: "{project-root}"
     emitAllModels: false
     emitAllRefs: false
+  "@azure-tools/typespec-ts":
+    title: ApiviewCodeFile
+    generateMetadata: false
+    generateTest: false
+    "emitter-output-dir": "{project-root}/../js-api-parser/src/generated"
+    packageDetails:
+      name: "@azure-tool/apiview-codefile"
+      description: "CodeFile Models"
+      version: "1.0.0-beta.1"
