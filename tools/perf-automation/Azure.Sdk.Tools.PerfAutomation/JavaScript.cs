@@ -90,7 +90,7 @@ namespace Azure.Sdk.Tools.PerfAutomation
                 WorkingDirectory, outputBuilder: outputBuilder, errorBuilder: errorBuilder);
 
             // "npm ls" frequently returns an error code (that can be ignored) due to "missing" dev dependencies
-            var npmListResult = await Util.RunAsync("npm", "ls --depth=0 --omit dev",
+            var npmListResult = await Util.RunAsync("npm", "ls --depth=1 --omit dev",
                 deployDirectory, outputBuilder: outputBuilder, errorBuilder: errorBuilder, throwOnError: false);
 
             var runtimePackageVersions = GetRuntimePackageVersions(npmListResult.StandardOutput);
